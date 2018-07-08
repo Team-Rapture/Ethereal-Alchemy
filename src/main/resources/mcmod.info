@@ -1,0 +1,16 @@
+[
+{
+  "modid": "etherealalchemy",
+  "name": "Ethereal Alchemy",
+  "description": "Intangible inspired mod bases around soulds and alchemy.",
+  "version": "1.12.2-1.0.0",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["abused_master, Sora"],
+  "credits": "Intangible for the inspiration",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
