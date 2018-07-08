@@ -18,16 +18,15 @@ public class EntityKnowledge extends EntityLiving {
     private double z;
     private int moved;
 
-    public EntityKnowledge(World worldIn, EntityPlayer thrower) {
+    public EntityKnowledge(World worldIn, EntityPlayer player) {
         super(worldIn);
-        this.setWorld(worldIn);
-        this.thrower = thrower;
-        this.posX = thrower.getPosition().getX();
-        this.posY = thrower.getPosition().getY() + 1;
-        this.posZ = thrower.getPosition().getZ();
+        this.thrower = player;
+        this.posX = player.getPosition().getX();
+        this.posY = player.getPosition().getY() + 1;
+        this.posZ = player.getPosition().getZ();
         this.noClip = false;
         this.setSize(3, 3);
-        this.setLocationAndAngles(thrower.posX, thrower.posY + 1, thrower.posZ, thrower.rotationYaw, thrower.rotationPitch);
+        this.setLocationAndAngles(player.posX, player.posY + 1, player.posZ, player.rotationYaw, player.rotationPitch);
         this.ticksAlive = 0;
         this.x = MathHelper.sin(this.rotationYaw * 0.017453292F) * MathHelper.cos(this.rotationPitch * 0.017453292F);
         this.y = MathHelper.sin(this.rotationPitch * 0.017453292F);
