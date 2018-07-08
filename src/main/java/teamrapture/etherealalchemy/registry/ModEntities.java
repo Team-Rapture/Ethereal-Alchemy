@@ -6,16 +6,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import teamrapture.etherealalchemy.EtherealAlchemy;
 import teamrapture.etherealalchemy.Info;
+import teamrapture.etherealalchemy.client.render.entity.RenderEntityKnowledge;
+import teamrapture.etherealalchemy.entity.EntityKnowledge;
 
 public class ModEntities {
 
     public static void registerEntities() {
-
+        createEntity(EntityKnowledge.class, "entity_knowledge", 0);
     }
 
     public static void renderEntities() {
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
-        //renderManager.entityRenderMap.put(EntityHere.class, new RENDERENTITY(renderManager));
+        renderManager.entityRenderMap.put(EntityKnowledge.class, new RenderEntityKnowledge(renderManager));
     }
 
     public static void createEntity(Class entityClass, String entityName, int ID) {

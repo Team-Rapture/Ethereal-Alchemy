@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -17,6 +18,7 @@ import teamrapture.etherealalchemy.registry.ModBlocks;
 import teamrapture.etherealalchemy.registry.ModEntities;
 import teamrapture.etherealalchemy.registry.ModItems;
 import teamrapture.etherealalchemy.registry.ModTiles;
+import teamrapture.etherealalchemy.registry.events.EtherealEvents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +35,6 @@ public class CommonProxy {
         ModBlocks.addToList();
         ModItems.addToList();
         ModTiles.addToList();
-        ModEntities.registerEntities();
 
         for (Block block : BLOCK_REGISTRY) {
             if(block instanceof BlockBase) {
@@ -53,9 +54,12 @@ public class CommonProxy {
             }
             ForgeRegistries.ITEMS.register(item);
         }
+
+        MinecraftForge.EVENT_BUS.register(new EtherealEvents());
     }
 
     public void init(FMLInitializationEvent event) {
+        ModEntities.registerEntities();
         for (Class<? extends TileEntity> te : TILE_REGISTRY.keySet()) {
             GameRegistry.registerTileEntity(te, TILE_REGISTRY.get(te));
         }

@@ -6,6 +6,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import teamrapture.etherealalchemy.entity.EntityKnowledge;
 
 public class KnowledgeGem extends ItemBase {
 
@@ -15,8 +16,8 @@ public class KnowledgeGem extends ItemBase {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        if(world.isRemote) {
-
+        if(world != null) {
+            world.spawnEntity(new EntityKnowledge(world, player));
         }
         return super.onItemRightClick(world, player, hand);
     }
