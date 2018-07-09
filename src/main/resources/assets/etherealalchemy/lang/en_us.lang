@@ -1,6 +1,8 @@
 itemGroup.etherealtab=Ethereal Alchemy
 
 item.knowledge_gem.name=Knowledge Gem
+item.soul_phial.name=Soul Phial
+item.filled_soul_phial.name=Soul Phial (Filled)
 
 knowledge_gem.entry=The knowledge gem provides you a guide through Ethereal Alchemy. In it you shall find various information on the usage and progression of the mod, as well as all the secrets you may unlock.
 soul_phial.entry=The soul phial is used to store the soul of a peaceful creature. Soul phials can be extracted to receive soul fragments.
