@@ -39,8 +39,10 @@ public class CommonProxy {
         for (Block block : BLOCK_REGISTRY) {
             if(block instanceof BlockBase) {
                 BlockBase blockBase = (BlockBase) block;
-                EtherealGuide.ETHEREAL_INFORMATION.put(block, blockBase.getGuideInformation());
-                EtherealGuide.ETHEREAL_ICONS.put(block, blockBase.getEntryIcon());
+                if(blockBase.getGuideInformation() != null) {
+                    EtherealGuide.ETHEREAL_INFORMATION.put(block, blockBase.getGuideInformation());
+                    EtherealGuide.ETHEREAL_ICONS.put(block, blockBase.getEntryIcon());
+                }
             }
             ForgeRegistries.BLOCKS.register(block);
             ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
@@ -49,8 +51,10 @@ public class CommonProxy {
         for (Item item : ITEM_REGISTRY) {
             if(item instanceof ItemBase) {
                 ItemBase itemBase = (ItemBase) item;
-                EtherealGuide.ETHEREAL_INFORMATION.put(item, itemBase.getGuideInformation());
-                EtherealGuide.ETHEREAL_ICONS.put(item, itemBase.getEntryIcon());
+                if(itemBase.getGuideInformation() != null) {
+                    EtherealGuide.ETHEREAL_INFORMATION.put(item, itemBase.getGuideInformation());
+                    EtherealGuide.ETHEREAL_ICONS.put(item, itemBase.getEntryIcon());
+                }
             }
             ForgeRegistries.ITEMS.register(item);
         }

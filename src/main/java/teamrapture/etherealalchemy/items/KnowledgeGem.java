@@ -17,7 +17,9 @@ public class KnowledgeGem extends ItemBase {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-        world.spawnEntity(new EntityKnowledge(world, player));
+        if(!world.isRemote) {
+            world.spawnEntity(new EntityKnowledge(world, player));
+        }
         return super.onItemRightClick(world, player, hand);
     }
 
