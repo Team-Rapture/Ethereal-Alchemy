@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 public class SoulPhial extends ItemBase {
     public SoulPhial() {
         super("soul_phial");
+        this.setMaxStackSize(1);
     }
 
     @Override
@@ -16,5 +17,12 @@ public class SoulPhial extends ItemBase {
     @Override
     public ResourceLocation getEntryIcon() {
         return new ResourceLocation("");
+    }
+
+    public static class FilledSoulPhial extends ItemBase{
+        public FilledSoulPhial(){
+            super("filled_soul_phial");
+            this.setMaxStackSize(1);
+        }
     }
 }
