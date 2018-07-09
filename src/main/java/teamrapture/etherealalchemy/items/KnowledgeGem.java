@@ -1,5 +1,6 @@
 package teamrapture.etherealalchemy.items;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -22,13 +23,11 @@ public class KnowledgeGem extends ItemBase {
 
     @Override
     public String getGuideInformation() {
-        return "The knowledge gem provides you a guide through Ethereal Alchemy. " +
-                "In it you shall find various information on the usage and progression of the mod, " +
-                "as well as all the secrets you may unlock.";
+        return I18n.format("knowledge_gem.entry");
     }
 
     @Override
     public ResourceLocation getEntryIcon() {
-        return new ResourceLocation("");
+        return new ResourceLocation("etherealalchemy","textures/gui/knowledge_gem.png");
     }
 }
