@@ -40,11 +40,6 @@ public class RenderEntityKnowledge extends Render<EntityKnowledge> {
         GlStateManager.scale(2.5F, 2.5F, 2.5F);
         GlStateManager.color(1.0f, 1.0f, 1.0f, 0.9f);
 
-        long angle = (System.currentTimeMillis() / 10) % 360;
-        //GlStateManager.translate(x, y, z);
-        //GlStateManager.rotate(angle, 0, 0, 1);
-        //GlStateManager.translate(-x, -y, -z);
-
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);

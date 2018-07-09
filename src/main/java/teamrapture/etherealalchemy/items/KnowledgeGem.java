@@ -13,6 +13,7 @@ public class KnowledgeGem extends ItemBase {
 
     public KnowledgeGem() {
         super("knowledge_gem");
+        this.setMaxStackSize(1);
     }
 
     @Override

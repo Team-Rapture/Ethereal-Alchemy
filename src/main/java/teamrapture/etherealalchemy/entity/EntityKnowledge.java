@@ -6,11 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class EntityKnowledge extends EntityLiving {
 
@@ -49,6 +47,16 @@ public class EntityKnowledge extends EntityLiving {
         this.accelerationX = accelX / d0 * 0.1D;
         this.accelerationY = accelY / d0 * 0.1D;
         this.accelerationZ = accelZ / d0 * 0.1D;
+    }
+
+    @Override
+    public boolean isPushedByWater() {
+        return false;
+    }
+
+    @Override
+    public boolean shouldRenderInPass(int pass) {
+        return pass == 1;
     }
 
     @Override
@@ -116,10 +124,12 @@ public class EntityKnowledge extends EntityLiving {
         return false;
     }
 
+    /*
     @Override
     public boolean isNonBoss() {
         return true;
     }
+    */
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
