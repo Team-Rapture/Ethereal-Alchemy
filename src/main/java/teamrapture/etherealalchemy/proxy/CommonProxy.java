@@ -54,8 +54,6 @@ public class CommonProxy {
             }
             ForgeRegistries.ITEMS.register(item);
         }
-
-        MinecraftForge.EVENT_BUS.register(new EtherealEvents());
     }
 
     public void init(FMLInitializationEvent event) {
@@ -63,6 +61,7 @@ public class CommonProxy {
         for (Class<? extends TileEntity> te : TILE_REGISTRY.keySet()) {
             GameRegistry.registerTileEntity(te, TILE_REGISTRY.get(te));
         }
+        MinecraftForge.EVENT_BUS.register(new EtherealEvents());
     }
 
     public void postInit(FMLPostInitializationEvent event) {

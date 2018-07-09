@@ -13,7 +13,7 @@ import teamrapture.etherealalchemy.registry.ModItems;
 @Mod(modid = Info.MODID, name = Info.MODNAME, version = Info.VERSION, acceptedMinecraftVersions = Info.ACCEPTED_VERSIONS)
 public class EtherealAlchemy {
 
-    @Mod.Instance
+    @Mod.Instance(Info.MODID)
     public static EtherealAlchemy instance;
 
     @SidedProxy(clientSide = "teamrapture.etherealalchemy.proxy.ClientProxy", serverSide = "teamrapture.etherealalchemy.proxy.CommonProxy")
