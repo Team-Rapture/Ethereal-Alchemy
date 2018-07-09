@@ -18,6 +18,10 @@ public class EntityKnowledge extends EntityLiving {
     private double z;
     private int moved;
 
+    public EntityKnowledge(World world) {
+        super(world);
+    }
+
     public EntityKnowledge(World worldIn, EntityPlayer player) {
         super(worldIn);
         this.thrower = player;
@@ -33,10 +37,6 @@ public class EntityKnowledge extends EntityLiving {
         this.z = MathHelper.cos(this.rotationYaw * 0.017453292F) * MathHelper.cos(this.rotationPitch * 0.017453292F);
         this.moved = 0;
         this.setEntityInvulnerable(true);
-    }
-
-    public EntityKnowledge(World world) {
-        super(world);
     }
 
     @Override
@@ -78,7 +78,6 @@ public class EntityKnowledge extends EntityLiving {
 
     @Override
     protected void entityInit() {
-
     }
 
     @Override
