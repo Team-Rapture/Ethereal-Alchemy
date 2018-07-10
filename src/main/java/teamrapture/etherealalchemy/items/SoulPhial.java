@@ -8,6 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SoulPhial extends ItemBase {
+
     public SoulPhial() {
         super("soul_phial");
         this.setMaxStackSize(1);
@@ -20,13 +21,14 @@ public class SoulPhial extends ItemBase {
 
     @Override
     public ResourceLocation getEntryIcon() {
-        return new ResourceLocation("");
+        return null;
     }
 
-    public static class FilledSoulPhial extends ItemBase{
-        public FilledSoulPhial(){
+    public static class FilledSoulPhial extends ItemBase {
+
+        public FilledSoulPhial() {
             super("filled_soul_phial");
-            this.setMaxStackSize(1);
+            this.setMaxStackSize(16);
         }
 
         @Override
@@ -38,6 +40,16 @@ public class SoulPhial extends ItemBase {
         @Override
         public boolean hasEffect(ItemStack stack) {
             return true;
+        }
+
+        @Override
+        public String getGuideInformation() {
+            return I18n.format("soul_phial.entry");
+        }
+
+        @Override
+        public ResourceLocation getEntryIcon() {
+            return null;
         }
     }
 }

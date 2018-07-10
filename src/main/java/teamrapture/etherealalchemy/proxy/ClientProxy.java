@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import teamrapture.etherealalchemy.registry.ModEntities;
+import teamrapture.etherealalchemy.registry.ModTiles;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -26,6 +27,7 @@ public class ClientProxy extends CommonProxy {
         for (Item item : ITEM_REGISTRY) {
             regItem(item);
         }
+        ModTiles.registerTESR();
     }
 
     @Override

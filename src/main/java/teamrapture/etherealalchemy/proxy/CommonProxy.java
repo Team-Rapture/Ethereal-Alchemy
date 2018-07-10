@@ -37,24 +37,20 @@ public class CommonProxy {
         ModTiles.addToList();
 
         for (Block block : BLOCK_REGISTRY) {
-            if(block instanceof BlockBase) {
+            if (block instanceof BlockBase) {
                 BlockBase blockBase = (BlockBase) block;
-                if(blockBase.getGuideInformation() != null) {
-                    EtherealGuide.ETHEREAL_INFORMATION.put(block, blockBase.getGuideInformation());
-                    EtherealGuide.ETHEREAL_ICONS.put(block, blockBase.getEntryIcon());
-                }
+                EtherealGuide.ETHEREAL_INFORMATION.put(block, blockBase.getGuideInformation());
+                EtherealGuide.ETHEREAL_ICONS.put(block, blockBase.getEntryIcon());
             }
             ForgeRegistries.BLOCKS.register(block);
             ForgeRegistries.ITEMS.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
         }
 
         for (Item item : ITEM_REGISTRY) {
-            if(item instanceof ItemBase) {
+            if (item instanceof ItemBase) {
                 ItemBase itemBase = (ItemBase) item;
-                if(itemBase.getGuideInformation() != null) {
-                    EtherealGuide.ETHEREAL_INFORMATION.put(item, itemBase.getGuideInformation());
-                    EtherealGuide.ETHEREAL_ICONS.put(item, itemBase.getEntryIcon());
-                }
+                EtherealGuide.ETHEREAL_INFORMATION.put(item, itemBase.getGuideInformation());
+                EtherealGuide.ETHEREAL_ICONS.put(item, itemBase.getEntryIcon());
             }
             ForgeRegistries.ITEMS.register(item);
         }

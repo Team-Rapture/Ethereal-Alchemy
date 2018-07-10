@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"normal": { "model": "etherealalchemy:soul_pedestal" },
+		"inventory": { "model": "etherealalchemy:soul_pedestal" }
+	}
+}
