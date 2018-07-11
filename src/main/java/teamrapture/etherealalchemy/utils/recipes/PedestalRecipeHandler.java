@@ -1,5 +1,6 @@
 package teamrapture.etherealalchemy.utils.recipes;
 
+import com.google.common.collect.Maps;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -10,33 +11,38 @@ import teamrapture.etherealalchemy.registry.ModItems;
 import teamrapture.etherealalchemy.tiles.TileSoulPedestal;
 import teamrapture.etherealalchemy.utils.EnumPedestalType;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class PedestalRecipeHandler {
 
-    public static PedestalRecipeHandler INSTANCE = new PedestalRecipeHandler();
-    public HashMap<ItemStack, PlusRecipes> plusRecipes = new HashMap<ItemStack, PlusRecipes>();
+    private static PedestalRecipeHandler INSTANCE = new PedestalRecipeHandler();
+    private Map<ItemStack, PlusRecipes> plusRecipes = Maps.<ItemStack, PlusRecipes>newHashMap();
 
     public static PedestalRecipeHandler getInstance() {
         return INSTANCE;
     }
 
-    private PedestalRecipeHandler() {
-        addPlusRecipe(new ItemStack(ModItems.filledSoulPhial), new ItemStack(Items.BONE), new ItemStack(ModItems.spiritualBone));
+    public PedestalRecipeHandler() {
+        this.addPlusRecipe(new ItemStack(ModItems.filledSoulPhial), new ItemStack(Items.BONE), new ItemStack(ModItems.spiritualBone));
     }
 
     public void addPlusRecipe(ItemStack center, ItemStack outside, ItemStack output) {
-        PlusRecipes recipes = new PlusRecipes(center, outside, output);
         plusRecipes.put(center, new PlusRecipes(center, outside, output));
     }
 
     public PlusRecipes getPlusForStack(ItemStack stack) {
-        if(plusRecipes.containsKey(stack)) {
-            return plusRecipes.get(stack);
-        }else {
-            return null;
+        for (Map.Entry<ItemStack, PlusRecipes> entry : this.plusRecipes.entrySet()) {
+            if (this.compareItemStacks(stack, entry.getKey())) {
+                return entry.getValue();
+            }
         }
+
+        return null;
+    }
+
+    public boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
+        return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
     }
 
     public class PlusRecipes {
@@ -88,6 +94,31 @@ public class PedestalRecipeHandler {
             }
 
             return false;
+        }
+    }
+
+    public class DiamondRecipes {
+
+        public ItemStack armorPiece;
+        public ItemStack output;
+        public ItemStack[] inputs;
+
+        public DiamondRecipes(ItemStack armorPiece, ItemStack output, ItemStack[] inputs) {
+            this.armorPiece = armorPiece;
+            this.output = output;
+            this.inputs = inputs;
+        }
+
+        public ItemStack getArmorPiece() {
+            return armorPiece;
+        }
+
+        public ItemStack getOutput() {
+            return output;
+        }
+
+        public ItemStack[] getInputs() {
+            return inputs;
         }
     }
 }

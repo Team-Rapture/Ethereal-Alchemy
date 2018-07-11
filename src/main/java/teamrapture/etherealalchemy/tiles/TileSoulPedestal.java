@@ -4,7 +4,6 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.items.ItemHandlerHelper;
 import teamrapture.etherealalchemy.registry.ModBlocks;
 import teamrapture.etherealalchemy.utils.EnumPedestalType;
 import teamrapture.etherealalchemy.utils.recipes.PedestalRecipeHandler;
@@ -41,7 +40,7 @@ public class TileSoulPedestal extends TileEntityBase {
     public void update() {
         if(isWorking) {
             workTime++;
-            if(workTime >= totalWorkTime) {
+            if(workTime >= 90) {
                 workTime = 0;
                 isWorking = false;
                 PedestalRecipeHandler.getInstance().getPlusForStack(stack).setRecipe(world, pos);
@@ -64,9 +63,7 @@ public class TileSoulPedestal extends TileEntityBase {
                 case PLUS:
                     if(!stack.isEmpty()) {
                         if (PedestalRecipeHandler.getInstance().getPlusForStack(stack) != null) {
-                            System.out.println("Recipe isnt null");
                             if (PedestalRecipeHandler.getInstance().getPlusForStack(stack).containKeys(world, pos)) {
-                                System.out.println("All inputs are in place!");
                                 return true;
                             } else {
                                 return false;
@@ -76,7 +73,6 @@ public class TileSoulPedestal extends TileEntityBase {
                         }
                     }
                 case CIRCLE:
-                case CORNERS:
                 case DIAMOND:
             }
         }else {
@@ -103,19 +99,6 @@ public class TileSoulPedestal extends TileEntityBase {
             BlockPos blockPos = pos.add(it.next());
             if (!it.hasNext()) {
                 return EnumPedestalType.CIRCLE;
-            }else {
-                if (getState(blockPos).getBlock() == ModBlocks.blockPedestal) {
-                    continue;
-                }else {
-                    break;
-                }
-            }
-        }
-
-        for (Iterator<BlockPos> it = EnumPedestalType.CORNERS.blocksList.iterator(); it.hasNext();) {
-            BlockPos blockPos = pos.add(it.next());
-            if (!it.hasNext()) {
-                return EnumPedestalType.CORNERS;
             }else {
                 if (getState(blockPos).getBlock() == ModBlocks.blockPedestal) {
                     continue;

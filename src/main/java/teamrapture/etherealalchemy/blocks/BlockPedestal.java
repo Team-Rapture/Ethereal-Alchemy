@@ -55,12 +55,14 @@ public class BlockPedestal extends BlockBase {
     }
 
     @Override
-    public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-        super.onBlockDestroyedByPlayer(worldIn, pos, state);
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         TileSoulPedestal tile = (TileSoulPedestal) worldIn.getTileEntity(pos);
-        //if(!tile.isEmpty()) {
-        //    worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tile.getStack()));
-        //}
+        if(tile != null && !tile.isEmpty()) {
+            if(!worldIn.isRemote) {
+                worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tile.getStack()));
+            }
+        }
+        super.onBlockHarvested(worldIn, pos, state, player);
     }
 
     @Override
