@@ -23,14 +23,14 @@ import teamrapture.etherealalchemy.registry.ModItems;
 public class EtherealEvents {
 
     @SubscribeEvent
-    public static void benignSoulExtraction(LivingDeathEvent event) {
+    public static void gentleSoulExtraction(LivingDeathEvent event) {
         if (event.getEntityLiving() instanceof EntityAnimal) {
             if(event.getSource().getTrueSource() instanceof EntityPlayer){
                 EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
                 if(!player.getHeldItemOffhand().isEmpty()){
                     if(ItemHandlerHelper.canItemStacksStack(player.getHeldItemOffhand(), new ItemStack(ModItems.soulPhial))){
-                        player.sendStatusMessage(new TextComponentString(TextFormatting.BOLD.DARK_PURPLE + I18n.format("benign_soul_extracted.msg")),true);
-                        player.world.playSound(null,player.getPosition(),SoundEvents.ENTITY_GHAST_SCREAM,SoundCategory.PLAYERS,1.0F,-2.0F);
+                        player.sendStatusMessage(new TextComponentString(TextFormatting.BOLD.DARK_PURPLE + I18n.format("gentle_soul_extracted.msg")),true);
+                        player.world.playSound(null,player.getPosition(),SoundEvents.BLOCK_FIRE_EXTINGUISH,SoundCategory.PLAYERS,1.0F,-2.0F);
                         player.setHeldItem(EnumHand.OFF_HAND, new ItemStack(ModItems.filledSoulPhial));
                     }
                 }

@@ -15,4 +15,4 @@ soul_phial.entry=The soul phial is used to store the soul of a peaceful creature
 soul_pedestal.entry=The soul pedestal allows for a ritual to be crated, to break apart a filled soul phial and infuse bones into soul fragments. It is created as a plus as the image shows, with the soul phial in the center. Shift click the center pedestal to activate the ritual.
 spiritual_bone.entry=The spiritual bone is created through the infusion of souls into a mundane bone. These bones have magical properties and can help control a soul.
 
-benign_soul_extracted.msg=Benign Soul Extracted!
+gentle_soul_extracted.msg=Gentle Soul Extracted!
