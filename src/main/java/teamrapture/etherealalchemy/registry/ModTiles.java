@@ -10,7 +10,7 @@ import teamrapture.etherealalchemy.tiles.TileSoulPedestal;
 public class ModTiles {
 
     public static void addToList() {
-        register(TileSoulPedestal.class, "etherealalchemt:soul_pedestal");
+        register(TileSoulPedestal.class, "etherealalchemy:soul_pedestal");
     }
 
     public static void registerTESR() {
