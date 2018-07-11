@@ -58,9 +58,9 @@ public class BlockPedestal extends BlockBase {
     public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
         super.onBlockDestroyedByPlayer(worldIn, pos, state);
         TileSoulPedestal tile = (TileSoulPedestal) worldIn.getTileEntity(pos);
-        if(!tile.isEmpty()) {
-            worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tile.getStack()));
-        }
+        //if(!tile.isEmpty()) {
+        //    worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tile.getStack()));
+        //}
     }
 
     @Override

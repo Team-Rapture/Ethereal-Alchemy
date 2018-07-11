@@ -16,17 +16,18 @@ import java.util.Iterator;
 public class PedestalRecipeHandler {
 
     public static PedestalRecipeHandler INSTANCE = new PedestalRecipeHandler();
-    public HashMap<ItemStack, PlusRecipes> plusRecipes = new HashMap<>();
+    public HashMap<ItemStack, PlusRecipes> plusRecipes = new HashMap<ItemStack, PlusRecipes>();
 
     public static PedestalRecipeHandler getInstance() {
         return INSTANCE;
     }
 
     private PedestalRecipeHandler() {
-        addPlusRecipe(new ItemStack(ModItems.filledSoulPhial), new ItemStack(Items.BONE), new ItemStack(ModItems.soulFragment));
+        addPlusRecipe(new ItemStack(ModItems.filledSoulPhial), new ItemStack(Items.BONE), new ItemStack(ModItems.spiritualBone));
     }
 
     public void addPlusRecipe(ItemStack center, ItemStack outside, ItemStack output) {
+        PlusRecipes recipes = new PlusRecipes(center, outside, output);
         plusRecipes.put(center, new PlusRecipes(center, outside, output));
     }
 
@@ -38,7 +39,7 @@ public class PedestalRecipeHandler {
         }
     }
 
-    public static class PlusRecipes {
+    public class PlusRecipes {
 
         public ItemStack center;
         public ItemStack outside;
@@ -66,7 +67,7 @@ public class PedestalRecipeHandler {
             for (Iterator<BlockPos> it = EnumPedestalType.PLUS.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tile = (TileSoulPedestal) world.getTileEntity(blockPos);
-                tile.setStack(output);
+                tile.setStack(getOutput());
                 world.spawnEntity(new EntityLightningBolt(world, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ(), false));
             }
         }
