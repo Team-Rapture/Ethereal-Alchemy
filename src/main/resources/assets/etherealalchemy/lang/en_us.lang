@@ -3,6 +3,7 @@ itemGroup.etherealtab=Ethereal Alchemy
 item.knowledge_gem.name=Knowledge Gem
 item.soul_phial.name=Soul Phial
 item.filled_soul_phial.name=Soul Phial (Filled)
+item.unfired_soul_phial.name=Unfired Soul Glass Phial
 item.soul_fragment.name=Soul Fragment
 item.spiritual_bone.name=Spiritual Bone
 
@@ -12,6 +13,7 @@ entity.entity_knowledge.name=Entity Knowledge
 
 knowledge_gem.entry=The knowledge gem provides you a guide through Ethereal Alchemy. In it you shall find various information on the usage and progression of the mod, as well as all the secrets you may unlock.
 soul_phial.entry=The soul phial is used to store the soul of a peaceful creature. Soul phials can be extracted to receive soul fragments.
+unfired_soul_phial.entry=An unfired soul glass phial. It needs to be cast into fire for it to properly form and be capable to hold a basic soul.
 soul_pedestal.entry=The soul pedestal allows for a ritual to be crated, to break apart a filled soul phial and infuse bones into soul fragments. It is created as a plus as the image shows, with the soul phial in the center. Shift click the center pedestal to activate the ritual.
 spiritual_bone.entry=The spiritual bone is created through the infusion of souls into a mundane bone. These bones have magical properties and can help control a soul.
 

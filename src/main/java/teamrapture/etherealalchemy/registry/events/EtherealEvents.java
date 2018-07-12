@@ -2,6 +2,7 @@ package teamrapture.etherealalchemy.registry.events;
 
 import net.minecraft.client.audio.Sound;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -13,10 +14,12 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
+import teamrapture.etherealalchemy.entity.EntityFireSafeItem;
 import teamrapture.etherealalchemy.registry.ModItems;
 
 @Mod.EventBusSubscriber
@@ -34,6 +37,25 @@ public class EtherealEvents {
                         player.setHeldItem(EnumHand.OFF_HAND, new ItemStack(ModItems.filledSoulPhial));
                     }
                 }
+            }
+        }
+    }
+@SubscribeEvent
+    public static void entityOnFire(EntityJoinWorldEvent event){
+        if(event.getEntity() instanceof EntityItem && !(event.getEntity() instanceof EntityFireSafeItem)){
+            if(!event.getWorld().isRemote){
+            EntityItem item = (EntityItem) event.getEntity();
+            ItemStack stack = item.getItem();
+            if(!stack.isEmpty()&& stack.getItem() == ModItems.unFiredSoulPhial) {
+                if (item.isBurning()) {
+                    EntityFireSafeItem entity = new EntityFireSafeItem(item);
+                    event.getWorld().setBlockToAir(item.getPosition());
+                    item.setDead();
+                    event.getWorld().spawnEntity(entity);
+                }
+            }
+
+
             }
         }
     }
