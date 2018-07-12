@@ -1,7 +1,7 @@
 package teamrapture.etherealalchemy.registry.events;
 
-import net.minecraft.client.audio.Sound;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,17 +9,15 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
-import teamrapture.etherealalchemy.entity.EntityFireSafeItem;
 import teamrapture.etherealalchemy.registry.ModItems;
 
 @Mod.EventBusSubscriber
@@ -40,22 +38,28 @@ public class EtherealEvents {
             }
         }
     }
-@SubscribeEvent
-    public static void entityOnFire(EntityJoinWorldEvent event){
-        if(event.getEntity() instanceof EntityItem && !(event.getEntity() instanceof EntityFireSafeItem)){
-            if(!event.getWorld().isRemote){
-            EntityItem item = (EntityItem) event.getEntity();
-            ItemStack stack = item.getItem();
-            if(!stack.isEmpty()&& stack.getItem() == ModItems.unFiredSoulPhial) {
-                if (item.isBurning()) {
-                    EntityFireSafeItem entity = new EntityFireSafeItem(item);
-                    event.getWorld().setBlockToAir(item.getPosition());
-                    item.setDead();
-                    event.getWorld().spawnEntity(entity);
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void entityOnFire(EntityJoinWorldEvent event) {
+        Entity entity = event.getEntity();
+        if(!event.getWorld().isRemote) {
+            if(entity instanceof EntityItem) {
+                EntityItem entityItem = (EntityItem) entity;
+                if(!entityItem.getItem().isEmpty() && entityItem.getItem().getItem() == ModItems.unFiredSoulPhial) {
+                    ((EntityItem) entity).setEntityInvulnerable(true);
                 }
             }
+        }
+    }
 
-
+    @SubscribeEvent
+    public static void entityEvent(EntityEvent event) {
+        if(event.getEntity() instanceof EntityItem) {
+            EntityItem entity = (EntityItem) event.getEntity();
+            if(entity.getItem().getItem() == ModItems.unFiredSoulPhial) {
+                if(entity.isBurning()) {
+                    ((EntityItem) event.getEntity()).setItem(new ItemStack(ModItems.soulPhial));
+                }
             }
         }
     }

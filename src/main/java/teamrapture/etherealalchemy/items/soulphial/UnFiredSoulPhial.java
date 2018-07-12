@@ -5,19 +5,19 @@ import net.minecraft.util.ResourceLocation;
 import teamrapture.etherealalchemy.items.ItemBase;
 
 public class UnFiredSoulPhial extends ItemBase {
-        public UnFiredSoulPhial(){
-            super("unfired_soul_phial");
-            this.setMaxStackSize(1);
-        }
+    public UnFiredSoulPhial() {
+        super("unfired_soul_phial");
+        this.setMaxStackSize(1);
+    }
 
-        @Override
-        public String getGuideInformation() {
-            return I18n.format("unfired_soul_phial.entry");
-        }
+    @Override
+    public String getGuideInformation() {
+        return I18n.format("unfired_soul_phial.entry");
+    }
 
-        @Override
-        public ResourceLocation getEntryIcon() {
-            return null ;
-        }
+    @Override
+    public ResourceLocation getEntryIcon() {
+        return null;
+    }
 }
 

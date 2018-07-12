@@ -14,7 +14,6 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 import teamrapture.etherealalchemy.tiles.TileSoulPedestal;
 import teamrapture.etherealalchemy.utils.EnumPedestalType;
-import teamrapture.etherealalchemy.utils.shader.ShaderUtils;
 
 public class RenderSoulPedestal extends TileEntitySpecialRenderer<TileSoulPedestal> {
 
