@@ -43,8 +43,18 @@ public class TileSoulPedestal extends TileEntityBase {
             if(workTime >= 90) {
                 workTime = 0;
                 isWorking = false;
-                PedestalRecipeHandler.getInstance().getPlusForStack(stack).setRecipe(world, pos);
-                stack = ItemStack.EMPTY;
+                switch (checkShape()) {
+                    case PLUS:
+                        PedestalRecipeHandler.getInstance().getPlusForStack(stack).setRecipe(world, pos);
+                        stack = ItemStack.EMPTY;
+                        break;
+                    case DIAMOND:
+                        PedestalRecipeHandler.getInstance().getDiamondForStack(stack).setRecipe(world, pos);
+                        break;
+                    case CIRCLE:
+                        PedestalRecipeHandler.getInstance().getCircleForStack(stack).setRecipe(world, pos);
+                        break;
+                }
             }
         }
     }
@@ -72,8 +82,35 @@ public class TileSoulPedestal extends TileEntityBase {
                             return false;
                         }
                     }
+
+                    break;
                 case CIRCLE:
+                    if(!stack.isEmpty()) {
+                        if(PedestalRecipeHandler.getInstance().getCircleForStack(stack) != null) {
+                            if(PedestalRecipeHandler.getInstance().getCircleForStack(stack).containKeys(world, pos)) {
+                                return true;
+                            }else {
+                                return false;
+                            }
+                        }else {
+                            return false;
+                        }
+                    }
+
+                    break;
                 case DIAMOND:
+                    if(!stack.isEmpty()) {
+                        if(PedestalRecipeHandler.getInstance().getDiamondForStack(stack) != null) {
+                            if(PedestalRecipeHandler.getInstance().getDiamondForStack(stack).containKeys(world, pos)) {
+                                return true;
+                            }else {
+                                return false;
+                            }
+                        }else {
+                            return false;
+                        }
+                    }
+                    break;
             }
         }else {
             return false;
