@@ -50,6 +50,7 @@ public class EtherealEvents {
                     EntityInvincible entityInvincible = new EntityInvincible(entityItem);
                     entityItem.setDead();
                     event.getWorld().loadedEntityList.add(entityInvincible);
+                    event.getWorld().playSound(null,event.getEntity().getPosition(),SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS,1.0F,0.5F);
                     event.getWorld().onEntityAdded(entityInvincible);
                     entityInvincible.setEntityInvulnerable(true);
                     event.setCanceled(true);
