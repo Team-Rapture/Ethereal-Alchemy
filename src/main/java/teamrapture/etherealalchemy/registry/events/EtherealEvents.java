@@ -1,5 +1,6 @@
 package teamrapture.etherealalchemy.registry.events;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -47,6 +48,9 @@ public class EtherealEvents {
                 EntityItem entityItem = (EntityItem) entity;
                 if(!entityItem.getItem().isEmpty() && entityItem.getItem().getItem() == ModItems.unFiredSoulPhial) {
                     ((EntityItem) entity).setEntityInvulnerable(true);
+                    if(event.getWorld().getBlockState(event.getEntity().getPosition()).getMaterial() == Material.FIRE) {
+                        entityItem.setItem(new ItemStack(ModItems.soulPhial,1,0));
+                    }
                 }
             }
         }
@@ -63,4 +67,6 @@ public class EtherealEvents {
             }
         }
     }
+
+
 }
