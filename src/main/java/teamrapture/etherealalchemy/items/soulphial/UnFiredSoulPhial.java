@@ -5,9 +5,10 @@ import net.minecraft.util.ResourceLocation;
 import teamrapture.etherealalchemy.items.ItemBase;
 
 public class UnFiredSoulPhial extends ItemBase {
+
     public UnFiredSoulPhial() {
         super("unfired_soul_phial");
-        this.setMaxStackSize(1);
+        this.setMaxStackSize(16);
     }
 
     @Override

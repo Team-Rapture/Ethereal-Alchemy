@@ -7,12 +7,14 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import teamrapture.etherealalchemy.EtherealAlchemy;
 import teamrapture.etherealalchemy.Info;
 import teamrapture.etherealalchemy.client.render.entity.RenderEntityKnowledge;
+import teamrapture.etherealalchemy.entity.EntityInvincible;
 import teamrapture.etherealalchemy.entity.EntityKnowledge;
 
 public class ModEntities {
 
     public static void registerEntities() {
         createEntity(EntityKnowledge.class, "entity_knowledge", 0);
+        createEntity(EntityInvincible.class, "entity_invincible", 1);
     }
 
     public static void renderEntities() {

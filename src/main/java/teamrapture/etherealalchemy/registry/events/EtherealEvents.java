@@ -1,6 +1,5 @@
 package teamrapture.etherealalchemy.registry.events;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -10,15 +9,16 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
+import teamrapture.etherealalchemy.entity.EntityInvincible;
 import teamrapture.etherealalchemy.registry.ModItems;
 
 @Mod.EventBusSubscriber
@@ -41,32 +41,20 @@ public class EtherealEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void entityOnFire(EntityJoinWorldEvent event) {
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
-        if(!event.getWorld().isRemote) {
-            if(entity instanceof EntityItem) {
+        if (!event.getWorld().isRemote) {
+            if (entity instanceof EntityItem) {
                 EntityItem entityItem = (EntityItem) entity;
-                if(!entityItem.getItem().isEmpty() && entityItem.getItem().getItem() == ModItems.unFiredSoulPhial) {
-                    ((EntityItem) entity).setEntityInvulnerable(true);
-                    if(event.getWorld().getBlockState(event.getEntity().getPosition()).getMaterial() == Material.FIRE) {
-                        entityItem.setItem(new ItemStack(ModItems.soulPhial,1,0));
-                    }
+                if (!entityItem.getItem().isEmpty() && entityItem.getItem().getItem() == ModItems.unFiredSoulPhial) {
+                    EntityInvincible entityInvincible = new EntityInvincible(entityItem);
+                    entityItem.setDead();
+                    event.getWorld().loadedEntityList.add(entityInvincible);
+                    event.getWorld().onEntityAdded(entityInvincible);
+                    entityInvincible.setEntityInvulnerable(true);
+                    event.setCanceled(true);
                 }
             }
         }
     }
-
-    @SubscribeEvent
-    public static void entityEvent(EntityEvent event) {
-        if(event.getEntity() instanceof EntityItem) {
-            EntityItem entity = (EntityItem) event.getEntity();
-            if(entity.getItem().getItem() == ModItems.unFiredSoulPhial) {
-                if(entity.isBurning()) {
-                    ((EntityItem) event.getEntity()).setItem(new ItemStack(ModItems.soulPhial));
-                }
-            }
-        }
-    }
-
-
 }
