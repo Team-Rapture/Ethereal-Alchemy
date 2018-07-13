@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import teamrapture.etherealalchemy.registry.ModEntities;
 import teamrapture.etherealalchemy.registry.ModTiles;
+import teamrapture.etherealalchemy.utils.shader.ShaderHelper;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy {
@@ -28,6 +29,7 @@ public class ClientProxy extends CommonProxy {
             regItem(item);
         }
         ModTiles.registerTESR();
+        ShaderHelper.initShaders();
     }
 
     @Override

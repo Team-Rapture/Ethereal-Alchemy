@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import teamrapture.etherealalchemy.proxy.CommonProxy;
 import teamrapture.etherealalchemy.registry.ModItems;
 
+import java.util.logging.Logger;
+
 @Mod(modid = Info.MODID, name = Info.MODNAME, version = Info.VERSION, acceptedMinecraftVersions = Info.ACCEPTED_VERSIONS)
 public class EtherealAlchemy {
 
@@ -19,9 +21,12 @@ public class EtherealAlchemy {
     @SidedProxy(clientSide = "teamrapture.etherealalchemy.proxy.ClientProxy", serverSide = "teamrapture.etherealalchemy.proxy.CommonProxy")
     static CommonProxy proxy;
 
+    public static Logger LOGGER;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.proxy.preInit(event);
+        LOGGER = Logger.getLogger("Ethereal Alchemy");
     }
 
     @Mod.EventHandler

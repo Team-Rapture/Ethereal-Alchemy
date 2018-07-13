@@ -1,239 +1,196 @@
 #ifdef GL_ES
-precision highp float;
+precision mediump float;
 #endif
- 
- 
+
+// glslsandbox uniforms
 uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
+
+// shadertoy globals
+float iTime = 0.0;
+vec3  iResolution = vec3(0.0);
+const vec3  iMouse = vec3(0.0);
+
+// --------[ Original ShaderToy begins here ]---------- //
+/*	kalizyl
+
+	(c) 2015, stefan berke (aGPL3)
+
+	Another attempt on the kali set
+	http://www.fractalforums.com/new-theories-and-research/very-simple-formula-for-fractal-patterns/
+
+	Looks cool and frametime is not too bad -
+	but still uses precission 0.1 for raymarching. (but see EIFFIE_MOD)
+	Maybe saves some speed by not coloring the surface.
+
+*/
+
+// plot a 2d slice of the distance function
+#define PLOT_2D			0
+// enable eiffie's modification (https://www.shadertoy.com/view/XtlGRj)
+#define EIFFIE_MOD		0
 
 
-#define iterations 4
-#define formuparam2 0.89
- 
-#define volsteps 10
-#define stepsize 0.190
- 
-#define zoom 3.900
-#define tile   0.450
-#define speed2  0.010
- 
-#define brightness 0.2
-#define darkmatter 0.400
-#define distfading 0.560
-#define saturation 0.400
+#define KALI_PARAM 		vec3(0.71)
+#define LIGHT_COL 		vec3(1.0, 0.8, 0.4)
 
+#if EIFFIE_MOD == 0
+    #define FOG_DIST 		5.
+    #define FOG_COL 		vec3(0.5, 0.7, 1.0)
+    #define CYL_RADIUS 		0.07
+    #define NUM_TRACE 		80
+    #define MARCH_PRECISION	0.1
+#else
+    #define FOG_DIST 		2.
+    #define FOG_COL 		(vec3(0.5, 0.7, 1.0)/3.)
+    #define CYL_RADIUS 		0.009
+    #define NUM_TRACE 		40
+    #define MARCH_PRECISION	0.9
+#endif
 
-#define transverseSpeed 1.1
-#define cloud 0.2
-
- 
-float triangle(float x, float a)
+#if EIFFIE_MOD == 0
+// standard kali set
+// modified to return distance to cylinders and spheres in 'kali-space'
+vec2 scene_dist(in vec3 p)
 {
- 
- 
-float output2 = 2.0*abs(  2.0*  ( (x/a) - floor( (x/a) + 0.5) ) ) - 1.0;
-return output2;
-}
- 
-
-float field(in vec3 p) {
-	
-	float strength = 7. + .03 * log(1.e-6 + fract(sin(time) * 4373.11));
-	float accum = 0.;
-	float prev = 0.;
-	float tw = 0.;
-	
-
-	for (int i = 0; i < 6; ++i) {
-		float mag = dot(p, p);
-		p = abs(p) / mag + vec3(-.5, -.8 + 0.1*sin(time*0.2 + 2.0), -1.1+0.3*cos(time*0.15));
-		float w = exp(-float(i) / 7.);
-		accum += w * exp(-strength * pow(abs(mag - prev), 2.3));
-		tw += w;
-		prev = mag;
+	vec2 d = vec2(100.);
+	for (int i=0; i<4; ++i)
+	{
+		p = abs(p) / dot(p, p) - KALI_PARAM;
+        // distance to cylinder
+		d.x = min(d.x, length(p.xz));
+        if (i < 3)
+        {
+            vec3 lightpos = vec3(0., 1.+sin(iTime+p.y+float(i)*1.3), 0.);
+            // distance to sphere
+        	d.y = min(d.y, length(p - lightpos));
+        }
 	}
-	return max(0., 5. * accum / tw - .7);
+	return d - CYL_RADIUS;
 }
 
+#else
 
-
-void main()
+// eiffie's mod
+vec2 scene_dist(in vec3 pos)
 {
-   
-     	vec2 uv2 = 2. * gl_FragCoord.xy / resolution.xy - 1.;
-	vec2 uvs = uv2 * resolution.xy / max(resolution.x, resolution.y);
-	
+    // p.w will track how much we have stretched space
+    vec4 p = vec4(pos, 1.);
+	vec2 d = vec2(100.);
+	for (int i=0; i<4; ++i)
+	{
+		p = abs(p) / dot(p.xyz, p.xyz) - vec4(KALI_PARAM, 0.);
+		d.x = min(d.x, length(p.xz)/p.w); //now we are calcing unstretched distance
+        if (i < 3)
+        {
+            vec3 lightpos = vec3(0., 1.+sin(iTime+p.y+float(i)*1.3), 0.);
+            d.y = min(d.y, length(p.xyz - lightpos)/p.w);
+        }
+	}
+	return d - CYL_RADIUS;
+}
 
-	
-	float time2 = time*1.9;
-               
-        float speed = speed2;
-        speed = 0.005 * cos(time2*0.02 + 3.1415926/4.0);
-          
-	//speed = 0.0;
+#endif
 
-	
-    	float formuparam = formuparam2;
+vec3 traceRay(in vec3 pos, in vec3 dir)
+{
+	vec3 p = pos;
 
-	
-    
-	//get coords and direction
+	float t = 0., mlightd = 100.;
 
-	vec2 uv = uvs;
-	
-	
-		       
-	//mouse rotation
-	float a_xz = 0.9;
-	float a_yz = -.6;
-	float a_xy = 0.9 + time*0.04;
-	
-	
-	mat2 rot_xz = mat2(cos(a_xz),sin(a_xz),-sin(a_xz),cos(a_xz));
-	
-	mat2 rot_yz = mat2(cos(a_yz),sin(a_yz),-sin(a_yz),cos(a_yz));
-		
-	mat2 rot_xy = mat2(cos(a_xy),sin(a_xy),-sin(a_xy),cos(a_xy));
-	
+    vec2 d = scene_dist(pos);
 
-	float v2 =1.0;
-	
-	vec3 dir=vec3(uv*zoom,1.);
- 
-	vec3 from=vec3(0.0, 0.0,0.0);
- 
-                               
-        from.x -= .5*(-0.5);
-        from.y -= .5*(-0.5);
-               
-               
-	vec3 forward = vec3(0.,0.,1.);
-               
-	
-	from.x += transverseSpeed*(1.0)*cos(0.01*time) + 0.001*time;
-	from.y += transverseSpeed*(1.0)*sin(0.01*time) + 0.001*time;
-	from.z += 0.003*time;
-	
-	
-	dir.xy*=rot_xy;
-	forward.xy *= rot_xy;
+	for (int i=0; i<NUM_TRACE; ++i)
+	{
+		if (d.x < 0.001 || t >= FOG_DIST)
+			continue;
 
-	dir.xz*=rot_xz;
-	forward.xz *= rot_xz;
-		
-	
-	dir.yz*= rot_yz;
-	forward.yz *= rot_yz;
-	 
+		p = pos + t * dir;
+		vec2 d = scene_dist(p);
 
-	
-	from.xy*=-rot_xy;
-	from.xz*=rot_xz;
-	from.yz*= rot_yz;
-	 
-	
-	//zoom
-	float zooom = (time2-3311.)*speed;
-	from += forward* zooom;
-	float sampleShift = mod( zooom, stepsize );
-	 
-	float zoffset = -sampleShift;
-	sampleShift /= stepsize; // make from 0 to 1
+        // collect minimum distance to light
+		mlightd = min(mlightd, d.y);
 
+		t += d.x * MARCH_PRECISION;
+	}
 
-	
-	//volumetric rendering
-	float s=0.24;
-	float s3 = s + stepsize/2.0;
-	vec3 v=vec3(0.);
-	float t3 = 0.0;
-	
-	
-	vec3 backCol2 = vec3(0.);
-	for (int r=0; r<volsteps; r++) {
-		vec3 p2=from+(s+zoffset)*dir;// + vec3(0.,0.,zoffset);
-		vec3 p3=(from+(s3+zoffset)*dir )* (1.9/zoom);// + vec3(0.,0.,zoffset);
-		
-		p2 = abs(vec3(tile)-mod(p2,vec3(tile*2.))); // tiling fold
-		p3 = abs(vec3(tile)-mod(p3,vec3(tile*2.))); // tiling fold
-		
-		#ifdef cloud
-		t3 = field(p3);
-		#endif
-		
-		float pa,a=pa=0.;
-		for (int i=0; i<iterations; i++) {
-			p2=abs(p2)/dot(p2,p2)-formuparam; // the magic formula
-			//p=abs(p)/max(dot(p,p),0.005)-formuparam; // another interesting way to reduce noise
-			float D = abs(length(p2)-pa); // absolute sum of average change
-			
-			if (i > 2)
-			{
-			a += i > 7 ? min( 12., D) : D;
-			}
-				pa=length(p2);
-		}
-		
-		
-		//float dm=max(0.,darkmatter-a*a*.001); //dark matter
-		a*=a*a; // add contrast
-		//if (r>3) fade*=1.-dm; // dark matter, don't render near
-		// brightens stuff up a bit
-		float s1 = s+zoffset;
-		// need closed form expression for this, now that we shift samples
-		float fade = pow(distfading,max(0.,float(r)-sampleShift));
-		
-		
-		//t3 += fade;
-		
-		v+=fade;
-	       		//backCol2 -= fade;
+    // only fog contribution
+	vec3 col = FOG_COL * min(1., t/FOG_DIST);
 
-		// fade out samples as they approach the camera
-		if( r == 0 )
-			fade *= (1. - (sampleShift));
-		// fade in samples as they approach from the distance
-		if( r == volsteps-1 )
-			fade *= sampleShift;
-		v+=vec3(s1,s1*s1,s1*s1*s1*s1)*a*brightness*fade; // coloring based on distance
-		
-		backCol2 += mix(.4, 1., v2) * vec3(0.20 * t3 * t3 * t3, 0.4 * t3 * t3, t3 * 0.7) * fade;
+    // plus light glow
+    col += LIGHT_COL / (1. + 50.*max(0., mlightd));
 
-		
-		s+=stepsize;
-		s3 += stepsize;
-		
-		
-		
-		}
-		       
-	v=mix(vec3(length(v)),v,saturation); //color adjust
-	 
-	
-	
+	return col;
+}
 
-	vec4 forCol2 = vec4(v*.01,1.);
-	
-	#ifdef cloud
-	backCol2 *= cloud;
-	#endif
-	
-	backCol2.r *= 1.80;
-	backCol2.g *= 0.05;
-	backCol2.b *= 0.90;
-	
+vec3 plot2d(in vec3 pos)
+{
+	vec2 d = scene_dist(pos);
+    // inside?
+    float ins = smoothstep(0.01,-0.01, d.x);
+    vec3 col = vec3(d.x, ins, 0.);
 
-	
-//	backCol2.b = 0.5*mix(backCol2.b, backCol2.g, 0.2);
-//	backCol2.g = 0.0;
-//
-//	backCol2.bg = mix(backCol2.gb, backCol2.bg, 0.5*(cos(time*0.01) + 1.0));
-	
-	gl_FragColor = vec4(backCol2, 1.0);
+    return col;
+}
 
+// camera path
+vec3 path(float ti)
+{
+	float a = ti * 3.14159265 * 2.;
 
+	return vec3(
+				1.1 * sin(a),
+				0.52 * sin(a*2.),
+				1.1 * cos(a) );
+}
 
-	
- 
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+	vec2 uv = fragCoord.xy / iResolution.xy * 2. - 1.;
+	uv.x *= iResolution.x / iResolution.y;
+
+    vec3 pos, dir;
+    mat3 dirm = mat3(vec3(1.,0.,0.), vec3(0.,1.,0.), vec3(0.,0.,1.));
+
+    if (iMouse.z < 0.5)
+    {
+        // camera time
+        float ti = iTime / 19.;
+
+        pos = path(ti);
+
+        // camera orientation matrix
+        vec3 look;
+
+        // how much to look towards the center [0,1]
+        float lookcenter = 0.45 + 0.45 * sin(ti*7.);
+    	look = normalize(path(ti + 0.1) - pos);
+		look = look + lookcenter * (normalize(-pos) - look);
+        vec3 up = normalize(cross(vec3(0., 1., 0.), look));
+        vec3 right = normalize(cross(look, up));
+        //look = normalize(cross(up, right));
+        dirm = mat3(right, up, look);
+
+        dir = dirm * normalize(vec3(uv, 1.5));
+    }
+    else
+    {
+        vec2 m = iMouse.xy / iResolution.xy;
+        pos = vec3(m.x*2.-1., 0., 3. * m.y);
+        dir = normalize(vec3(uv, -1.));
+    }
+#if PLOT_2D == 0
+	fragColor = vec4( traceRay(pos, dir), 1.);
+#else
+    fragColor = vec4( plot2d(pos + dirm * vec3(uv,0.)), 1.);
+#endif
+}
+
+// --------[ Original ShaderToy ends here ]---------- //
+
+void main(void)
+{
+    iTime = time;
+    iResolution = vec3(vec2(512, 512), 0.0);
+
+    mainImage(gl_FragColor, gl_FragCoord.xy);
 }
