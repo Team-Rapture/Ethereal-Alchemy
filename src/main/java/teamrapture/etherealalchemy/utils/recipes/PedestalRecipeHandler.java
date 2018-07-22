@@ -10,7 +10,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import scala.actors.threadpool.Arrays;
 import teamrapture.etherealalchemy.registry.ModItems;
 import teamrapture.etherealalchemy.tiles.TileSoulPedestal;
-import teamrapture.etherealalchemy.utils.EnumPedestalType;
+import teamrapture.etherealalchemy.utils.enums.EnumPedestalTypes;
 import teamrapture.etherealalchemy.utils.ListUtils;
 
 import java.util.*;
@@ -105,7 +105,7 @@ public class PedestalRecipeHandler {
         }
 
         public void setRecipe(World world, BlockPos pos) {
-            for (Iterator<BlockPos> it = EnumPedestalType.PLUS.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.PLUS.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tile = (TileSoulPedestal) world.getTileEntity(blockPos);
                 tile.setStack(getOutput());
@@ -115,7 +115,7 @@ public class PedestalRecipeHandler {
         }
 
         public boolean containKeys(World world, BlockPos pos) {
-            for (Iterator<BlockPos> it = EnumPedestalType.PLUS.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.PLUS.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tile = (TileSoulPedestal) world.getTileEntity(blockPos);
                 if (ItemHandlerHelper.canItemStacksStack(tile.getStack(), getOutside())) {
@@ -162,7 +162,7 @@ public class PedestalRecipeHandler {
         public void setRecipe(World world, BlockPos pos) {
             TileSoulPedestal tile1 = (TileSoulPedestal) world.getTileEntity(pos);
             tile1.setStack(getOutput());
-            for (Iterator<BlockPos> it = EnumPedestalType.DIAMOND.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.DIAMOND.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tilePed = (TileSoulPedestal) world.getTileEntity(blockPos);
                 if(!tilePed.isEmpty()) {
@@ -173,7 +173,7 @@ public class PedestalRecipeHandler {
         }
 
         public boolean containKeys(World world, BlockPos pos) {
-            for (Iterator<BlockPos> it = EnumPedestalType.DIAMOND.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.DIAMOND.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tile = (TileSoulPedestal) world.getTileEntity(blockPos);
                 if(!tile.isEmpty()) {
@@ -224,7 +224,7 @@ public class PedestalRecipeHandler {
         public void setRecipe(World world, BlockPos pos) {
             TileSoulPedestal tile1 = (TileSoulPedestal) world.getTileEntity(pos);
             tile1.setStack(getOutput());
-            for (Iterator<BlockPos> it = EnumPedestalType.CIRCLE.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.CIRCLE.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tilePed = (TileSoulPedestal) world.getTileEntity(blockPos);
                 if(!tilePed.isEmpty()) {
@@ -235,7 +235,7 @@ public class PedestalRecipeHandler {
         }
 
         public boolean containKeys(World world, BlockPos pos) {
-            for (Iterator<BlockPos> it = EnumPedestalType.CIRCLE.blocksList.iterator(); it.hasNext(); ) {
+            for (Iterator<BlockPos> it = EnumPedestalTypes.CIRCLE.blocksList.iterator(); it.hasNext(); ) {
                 BlockPos blockPos = pos.add(it.next());
                 TileSoulPedestal tile = (TileSoulPedestal) world.getTileEntity(blockPos);
                 if(!tile.isEmpty()) {

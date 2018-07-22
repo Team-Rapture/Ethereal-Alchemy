@@ -9,16 +9,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import teamrapture.etherealalchemy.Info;
 
 @Mod.EventBusSubscriber(modid = Info.MODID)
-public class ShaderIcons {
+public class TextureStitch {
 
-    public static TextureAtlasSprite pedestalStar;
+    public static TextureAtlasSprite PEDESTAL_SPRITE;
+
+    public static TextureAtlasSprite forName(TextureMap ir, String name, String dir) {
+        return ir.registerSprite(new ResourceLocation(Info.MODID + ":" + dir + "/" + name));
+    }
 
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre evt) {
-        pedestalStar = forName(evt.getMap(), "star_particle", "entity");
-    }
-
-    public static TextureAtlasSprite forName(TextureMap ir, String name, String dir) {
-        return ir.registerSprite(new ResourceLocation(Info.MODID, "entity/" + name));
+        PEDESTAL_SPRITE = forName(evt.getMap(), "star_particle", "entity");
     }
 }

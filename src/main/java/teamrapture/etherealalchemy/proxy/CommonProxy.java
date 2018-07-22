@@ -19,8 +19,8 @@ import teamrapture.etherealalchemy.registry.ModEntities;
 import teamrapture.etherealalchemy.registry.ModItems;
 import teamrapture.etherealalchemy.registry.ModTiles;
 import teamrapture.etherealalchemy.registry.events.EtherealEvents;
-import teamrapture.etherealalchemy.utils.shader.ClientTickHandler;
-import teamrapture.etherealalchemy.utils.shader.ShaderIcons;
+import teamrapture.etherealalchemy.utils.shader.ClientTick;
+import teamrapture.etherealalchemy.utils.shader.TextureStitch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,8 @@ public class CommonProxy {
         ModBlocks.addToList();
         ModItems.addToList();
         ModTiles.addToList();
-        MinecraftForge.EVENT_BUS.register(new ShaderIcons());
+        MinecraftForge.EVENT_BUS.register(new ClientTick());
+        MinecraftForge.EVENT_BUS.register(new TextureStitch());
 
         for (Block block : BLOCK_REGISTRY) {
             if (block instanceof BlockBase) {

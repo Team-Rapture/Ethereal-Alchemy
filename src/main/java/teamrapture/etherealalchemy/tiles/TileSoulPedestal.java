@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import teamrapture.etherealalchemy.registry.ModBlocks;
-import teamrapture.etherealalchemy.utils.EnumPedestalType;
+import teamrapture.etherealalchemy.utils.enums.EnumPedestalTypes;
 import teamrapture.etherealalchemy.utils.recipes.PedestalRecipeHandler;
 
 import java.util.Iterator;
@@ -40,7 +40,8 @@ public class TileSoulPedestal extends TileEntityBase {
     public void update() {
         if(isWorking) {
             workTime++;
-            if(workTime >= 90) {
+            //if(workTime >= 90) {
+            if(workTime >= 100000) {
                 workTime = 0;
                 isWorking = false;
                 switch (checkShape()) {
@@ -67,7 +68,7 @@ public class TileSoulPedestal extends TileEntityBase {
     }
 
     public boolean canWork() {
-        EnumPedestalType type = checkShape();
+        EnumPedestalTypes type = checkShape();
         if(type != null) {
             switch (type) {
                 case PLUS:
@@ -118,11 +119,11 @@ public class TileSoulPedestal extends TileEntityBase {
         return false;
     }
 
-    public EnumPedestalType checkShape() {
-        for (Iterator<BlockPos> it = EnumPedestalType.PLUS.blocksList.iterator(); it.hasNext();) {
+    public EnumPedestalTypes checkShape() {
+        for (Iterator<BlockPos> it = EnumPedestalTypes.PLUS.blocksList.iterator(); it.hasNext();) {
             BlockPos blockPos = pos.add(it.next());
             if(!it.hasNext()) {
-                return EnumPedestalType.PLUS;
+                return EnumPedestalTypes.PLUS;
             }else {
                 if (getState(blockPos).getBlock() == ModBlocks.blockPedestal) {
                     continue;
@@ -132,10 +133,10 @@ public class TileSoulPedestal extends TileEntityBase {
             }
         }
 
-        for (Iterator<BlockPos> it = EnumPedestalType.CIRCLE.blocksList.iterator(); it.hasNext();) {
+        for (Iterator<BlockPos> it = EnumPedestalTypes.CIRCLE.blocksList.iterator(); it.hasNext();) {
             BlockPos blockPos = pos.add(it.next());
             if (!it.hasNext()) {
-                return EnumPedestalType.CIRCLE;
+                return EnumPedestalTypes.CIRCLE;
             }else {
                 if (getState(blockPos).getBlock() == ModBlocks.blockPedestal) {
                     continue;
@@ -145,10 +146,10 @@ public class TileSoulPedestal extends TileEntityBase {
             }
         }
 
-        for (Iterator<BlockPos> it = EnumPedestalType.DIAMOND.blocksList.iterator(); it.hasNext();) {
+        for (Iterator<BlockPos> it = EnumPedestalTypes.DIAMOND.blocksList.iterator(); it.hasNext();) {
             BlockPos blockPos = pos.add(it.next());
             if (!it.hasNext()) {
-                return EnumPedestalType.DIAMOND;
+                return EnumPedestalTypes.DIAMOND;
             }else {
                 if (getState(blockPos).getBlock() == ModBlocks.blockPedestal) {
                     continue;

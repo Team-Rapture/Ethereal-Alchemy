@@ -1,11 +1,11 @@
-package teamrapture.etherealalchemy.utils;
+package teamrapture.etherealalchemy.utils.enums;
 
 import net.minecraft.util.math.BlockPos;
 import scala.actors.threadpool.Arrays;
 
 import java.util.List;
 
-public enum EnumPedestalType {
+public enum EnumPedestalTypes {
     PLUS(new BlockPos[]{new BlockPos(-2, 0, 0), new BlockPos(2, 0, 0), new BlockPos(0, 0, -2), new BlockPos(0, 0, 2)}),
 
     CIRCLE(new BlockPos[]{new BlockPos(0, 0, -3), new BlockPos(-3, 0, 0), new BlockPos(3, 0, 0), new BlockPos(0, 0, 3),
@@ -16,7 +16,7 @@ public enum EnumPedestalType {
 
     public List<BlockPos> blocksList;
 
-    private EnumPedestalType(BlockPos[] blockPos) {
+    private EnumPedestalTypes(BlockPos[] blockPos) {
         blocksList = Arrays.asList(blockPos);
     }
 }
