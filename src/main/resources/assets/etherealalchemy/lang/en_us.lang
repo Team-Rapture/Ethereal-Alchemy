@@ -8,6 +8,7 @@ item.soul_fragment.name=Soul Fragment
 item.spiritual_bone.name=Spiritual Bone
 
 tile.soul_pedestal.name=Soul Pedestal
+tile.soul_chamber.name=Soul Chamber
 
 entity.entity_knowledge.name=Entity Knowledge
 

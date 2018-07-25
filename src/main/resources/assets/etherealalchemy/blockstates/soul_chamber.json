@@ -1,0 +1,68 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "etherealalchemy:soul_cell.obj",
+    "custom": {
+      "flip-v": true
+    },
+    "transform": {
+      "thirdperson_righthand": {
+        "scale": 0.35,
+        "translation": [
+          0,
+          0.10,
+          0
+        ]
+      },
+      "thirdperson_lefthand": {
+        "scale": 0.35,
+        "translation": [
+          0,
+          0.10,
+          0
+        ]
+      },
+	  "firstperson_righthand": {
+        "scale": 0.35,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "firstperson_lefthand": {
+        "scale": 0.35,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      },
+      "gui": {
+        "scale": 0.45,
+        "translation": [
+          0,
+          -0.2,
+          0
+        ]
+      },
+      "ground": {
+        "scale": 0.4,
+        "translation": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "variants": {
+    "normal": [
+      {}
+    ]/*,
+    "inventory": [
+      {}
+    ]
+	*/
+  }
+}

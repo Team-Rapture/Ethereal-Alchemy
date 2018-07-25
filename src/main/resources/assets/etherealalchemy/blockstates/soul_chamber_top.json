@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"normal": { "model": "etherealalchemy:empty_model" },
+		"inventory": { "model": "etherealalchemy:empty_model" }
+	}
+}

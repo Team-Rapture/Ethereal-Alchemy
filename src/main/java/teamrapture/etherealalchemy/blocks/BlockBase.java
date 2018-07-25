@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public class BlockBase extends BlockContainer implements IGuideEntryHandler {
 
-    protected BlockBase(Material material, String name, float hardness) {
+    public BlockBase(Material material, String name, float hardness) {
         super(material);
         this.setUnlocalizedName(name);
         this.setRegistryName(name);

@@ -1,5 +1,6 @@
 package teamrapture.etherealalchemy.registry.events;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -12,17 +13,21 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 import teamrapture.etherealalchemy.entity.EntityInvincible;
 import teamrapture.etherealalchemy.entity.EntitySoulBase;
+import teamrapture.etherealalchemy.registry.ModBlocks;
 import teamrapture.etherealalchemy.registry.ModItems;
 import teamrapture.etherealalchemy.utils.enums.EnumAnimalTypes;
 
@@ -63,4 +68,42 @@ public class EtherealEvents {
             }
         }
     }
+
+    @SubscribeEvent
+    public static void onBlockPlaced(BlockEvent.PlaceEvent event) {
+        IBlockState state = event.getPlacedBlock();
+        BlockPos pos = event.getPos();
+        World world = event.getWorld();
+        if(state.getBlock() == ModBlocks.blockSoulChamber) {
+            if(world.isAirBlock(pos.up())) {
+                world.setBlockState(pos.up(), ModBlocks.blockSoulChamberTop.getDefaultState());
+            }else {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        IBlockState state = event.getState();
+        BlockPos pos = event.getPos();
+        World world = event.getWorld();
+        if(state.getBlock() == ModBlocks.blockSoulChamber) {
+            world.setBlockToAir(pos.up());
+        }else if(state.getBlock() == ModBlocks.blockSoulChamberTop) {
+            world.setBlockToAir(pos.down());
+        }
+    }
+
+    /**
+    @SubscribeEvent
+    public static void onBlockHarvestEvents(BlockEvent.HarvestDropsEvent event) {
+        IBlockState state = event.getState();
+        BlockPos pos = event.getPos();
+        World world = event.getWorld();
+        if(state.getBlock() == ModBlocks.blockSoulChamberTop) {
+            world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModBlocks.blockSoulChamber)));
+        }
+    }
+    */
 }

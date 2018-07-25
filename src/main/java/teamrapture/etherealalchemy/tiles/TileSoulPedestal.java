@@ -40,8 +40,7 @@ public class TileSoulPedestal extends TileEntityBase {
     public void update() {
         if(isWorking) {
             workTime++;
-            //if(workTime >= 90) {
-            if(workTime >= 100000) {
+            if(workTime >= 90) {
                 workTime = 0;
                 isWorking = false;
                 switch (checkShape()) {
