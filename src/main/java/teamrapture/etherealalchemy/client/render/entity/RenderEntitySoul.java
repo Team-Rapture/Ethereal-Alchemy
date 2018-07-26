@@ -11,11 +11,14 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import teamrapture.etherealalchemy.entity.EntitySoulBase;
 import teamrapture.etherealalchemy.utils.enums.EnumAnimalTypes;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
 
 public class RenderEntitySoul extends RenderLiving {
 
@@ -88,7 +91,7 @@ public class RenderEntitySoul extends RenderLiving {
     }
 
     public EntityLiving getSoulToRender(EntitySoulBase entity, World world) {
-        EntityLiving soulEntity = (EntityLiving) EntityList.createEntityByIDFromName(new ResourceLocation(entity.entityTypeString), world);
+        EntityLiving soulEntity = (EntityLiving) EntityList.createEntityByIDFromName(EntityList.getKey(EnumAnimalTypes.getTypeByID(entity.getEntityId()).getEntityClass()), world);
         soulEntity.setPosition(entity.posX, entity.posY, entity.posZ);
         soulEntity.lastTickPosX = entity.lastTickPosX;
         soulEntity.lastTickPosY = entity.lastTickPosY;

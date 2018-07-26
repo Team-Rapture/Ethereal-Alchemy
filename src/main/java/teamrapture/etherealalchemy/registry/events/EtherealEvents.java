@@ -94,16 +94,4 @@ public class EtherealEvents {
             world.setBlockToAir(pos.down());
         }
     }
-
-    /**
-    @SubscribeEvent
-    public static void onBlockHarvestEvents(BlockEvent.HarvestDropsEvent event) {
-        IBlockState state = event.getState();
-        BlockPos pos = event.getPos();
-        World world = event.getWorld();
-        if(state.getBlock() == ModBlocks.blockSoulChamberTop) {
-            world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(ModBlocks.blockSoulChamber)));
-        }
-    }
-    */
 }

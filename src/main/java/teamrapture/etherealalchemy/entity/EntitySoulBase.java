@@ -2,16 +2,19 @@ package teamrapture.etherealalchemy.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import teamrapture.etherealalchemy.utils.enums.EnumAnimalTypes;
 
@@ -26,7 +29,7 @@ public class EntitySoulBase extends EntityAnimal {
 
     public EntitySoulBase(World world) {
         super(world);
-        this.entityType = -1;
+        this.entityType = EntityList.getID(EntityPig.class);
         this.entityName = "";
         this.entityTypeString = "Pig";
         this.setCustomNameTag(entityName);
@@ -37,7 +40,7 @@ public class EntitySoulBase extends EntityAnimal {
         super(world);
         this.entityType = type;
         this.entityTypeString = entityType;
-        this.entityName = EnumAnimalTypes.getTypeByID(type).getSoulName();
+        this.entityName = EnumAnimalTypes.getTypeByID(type) != null ? EnumAnimalTypes.getTypeByID(type).getSoulName() : "null";
         this.setCustomNameTag(entityName);
         this.getDataManager().set(ENTITY_TYPE, type);
     }
