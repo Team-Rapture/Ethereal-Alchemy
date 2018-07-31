@@ -13,7 +13,8 @@ public class BlockSoulChamberTop extends BlockBase {
 
     public BlockSoulChamberTop() {
         super(Material.ROCK, "soul_chamber_top", 2.0f);
-        setSoundType(SoundType.GLASS);
+        this.setSoundType(SoundType.GLASS);
+        this.setCreativeTab(null);
     }
 
     @Override

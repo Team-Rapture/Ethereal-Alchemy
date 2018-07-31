@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import teamrapture.etherealalchemy.entity.EntitySoulBase;
+import teamrapture.etherealalchemy.utils.enums.EnumAnimalTypes;
 
 import java.util.List;
 
@@ -42,21 +43,39 @@ public class TileSoulChamber extends TileEntityBase {
             List<Entity> entities = world.getEntitiesWithinAABB(EntityLiving.class, boundingBox);
             for (Entity entity : entities) {
                 if(!(entity instanceof EntityPlayer) && !(entity instanceof EntitySoulBase) && (entity instanceof EntityLiving || entity instanceof EntityLivingBase)) {
-                    hasEntity = true;
-                    entityID = EntityList.getID(entity.getClass());
-                    entity.setDead();
-                    break;
+                    if(EnumAnimalTypes.getTypeByID(EntityList.getID(entity.getClass())) != null) {
+                        hasEntity = true;
+                        entityID = EntityList.getID(entity.getClass());
+                        entity.setDead();
+                        break;
+                    }
                 }
             }
         }
 
-        if(hasEntity && world.isBlockPowered(pos) && entityID != -1) {
-            EntitySoulBase entitySoulBase = new EntitySoulBase(world, entityID, "");
-            entitySoulBase.setPosition(pos.getX(), pos.getY() + 2, pos.getZ());
-            world.spawnEntity(entitySoulBase);
+        if(hasEntity && world.isBlockPowered(pos)) {
+                EntitySoulBase entitySoulBase = new EntitySoulBase(world, entityID);
+                entitySoulBase.setPosition(pos.getX(), pos.getY() + 2, pos.getZ());
+                world.spawnEntity(entitySoulBase);
 
-            hasEntity = false;
-            entityID = -1;
+                hasEntity = false;
+                entityID = -1;
         }
+    }
+
+    public void run() {
+        if(canRun()) {
+
+        }
+    }
+
+    public boolean canRun() {
+
+        return false;
+    }
+
+    public boolean hasItems() {
+
+        return false;
     }
 }

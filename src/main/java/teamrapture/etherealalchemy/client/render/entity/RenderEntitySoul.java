@@ -1,7 +1,6 @@
 package teamrapture.etherealalchemy.client.render.entity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -11,18 +10,15 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import teamrapture.etherealalchemy.entity.EntitySoulBase;
 import teamrapture.etherealalchemy.utils.enums.EnumAnimalTypes;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
 
 public class RenderEntitySoul extends RenderLiving {
-
-    private ResourceLocation textureLocation;
 
     public RenderEntitySoul(RenderManager rendermanagerIn) {
         super(rendermanagerIn, null, 0f);
@@ -34,15 +30,15 @@ public class RenderEntitySoul extends RenderLiving {
         GlStateManager.blendFunc(770, 1);
         GlStateManager.alphaFunc(516, 0.02f);
         GlStateManager.enableBlend();
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 0.3f);
-        final Render renderer = Minecraft.getMinecraft().getRenderManager().entityRenderMap.get(EnumAnimalTypes.getTypeByID(entity.getDataManager().get(entity.ENTITY_TYPE)).getEntityClass());
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 0.4f);
+        Render renderer = Minecraft.getMinecraft().getRenderManager().entityRenderMap.get(soulEntity.getClass());
         renderer.doRender(soulEntity, x, y, z, entityYaw, partialTicks);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
         GlStateManager.blendFunc(770, 1);
         GlStateManager.alphaFunc(516, 0.02f);
         GlStateManager.enableBlend();
-        this.renderLeash((EntitySoulBase) entity, x, y, z, entityYaw, partialTicks);
+        this.renderLeash(soulEntity, x, y, z, entityYaw, partialTicks);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }
@@ -57,41 +53,16 @@ public class RenderEntitySoul extends RenderLiving {
         this.soulRender((EntitySoulBase) entity, x, y, z, entityYaw, partialTicks);
     }
 
-    @Override
-    protected void renderModel(EntityLivingBase entityLivingBase, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-        if(entityLivingBase instanceof EntitySoulBase) {
-            EntitySoulBase entitySoulBase = (EntitySoulBase) entityLivingBase;
-            if (mainModel == null) {
-                try {
-                    mainModel = (ModelBase) EnumAnimalTypes.getTypeByID(entitySoulBase.getDataManager().get(entitySoulBase.ENTITY_TYPE)).getRenderClass().newInstance();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        super.renderModel(entityLivingBase, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-    }
-
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(Entity entity) {
-        if(entity instanceof EntitySoulBase) {
-            EntitySoulBase entitySoulBase = (EntitySoulBase) entity;
-            if(textureLocation == null) {
-                return textureLocation = EnumAnimalTypes.getTypeByID(entitySoulBase.getDataManager().get(entitySoulBase.ENTITY_TYPE)).getLocation();
-            }
-
-            return textureLocation;
-        }
-
-        return null;
+        EntitySoulBase entitySoulBase = (EntitySoulBase) entity;
+        return EnumAnimalTypes.getTypeByID(entitySoulBase.getDataManager().get(entitySoulBase.ENTITY_TYPE)).getTextureLoc();
     }
 
+    @SideOnly(Side.CLIENT)
     public EntityLiving getSoulToRender(EntitySoulBase entity, World world) {
-        EntityLiving soulEntity = (EntityLiving) EntityList.createEntityByIDFromName(EntityList.getKey(EnumAnimalTypes.getTypeByID(entity.getEntityId()).getEntityClass()), world);
+        EntityLiving soulEntity = (EntityLiving) EntityList.createEntityByID(entity.getEntityType(), world);
         soulEntity.setPosition(entity.posX, entity.posY, entity.posZ);
         soulEntity.lastTickPosX = entity.lastTickPosX;
         soulEntity.lastTickPosY = entity.lastTickPosY;

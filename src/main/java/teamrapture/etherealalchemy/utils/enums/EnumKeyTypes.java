@@ -1,6 +1,5 @@
 package teamrapture.etherealalchemy.utils.enums;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 

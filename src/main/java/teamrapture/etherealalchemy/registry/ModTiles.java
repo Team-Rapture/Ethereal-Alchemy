@@ -3,6 +3,7 @@ package teamrapture.etherealalchemy.registry;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import teamrapture.etherealalchemy.client.render.tesr.RenderSoulChamber;
 import teamrapture.etherealalchemy.client.render.tesr.RenderSoulPedestal;
 import teamrapture.etherealalchemy.proxy.CommonProxy;
 import teamrapture.etherealalchemy.tiles.TileSoulChamber;
@@ -17,6 +18,7 @@ public class ModTiles {
 
     public static void registerTESR() {
         register(TileSoulPedestal.class, new RenderSoulPedestal());
+        register(TileSoulChamber.class, new RenderSoulChamber());
     }
 
     public static void register(Class<? extends TileEntity> te, String name) {
